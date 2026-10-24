@@ -4,27 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Scheduler Booking System | Real-Life Web Application</title>
-  <!-- Tailwind CSS CDN for instant styling -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="css/styles.css">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              900: '#312e81'
-            }
-          }
-        }
-      }
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+    :root {
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
-  </script>
+    body {
+      font-family: var(--font-sans);
+      background-color: #f8fafc;
+      color: #0f172a;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @media print {
+      body * { visibility: hidden; }
+      #receipt-modal, #receipt-modal * { visibility: visible; }
+      #receipt-modal { position: absolute; left: 0; top: 0; width: 100%; background: white !important; }
+      .no-print { display: none !important; }
+    }
+  </style>
 </head>
 <body class="bg-slate-50 min-h-screen text-slate-900 flex flex-col">
 
@@ -95,11 +100,8 @@
   <!-- Main Container -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-    <!-- ==================================================================== -->
-    <!-- TAB 1: BOOK APPOINTMENT -->
-    <!-- ==================================================================== -->
+    <!-- ==================== TAB 1: BOOK APPOINTMENT ==================== -->
     <section id="tab-book" class="tab-content">
-      <!-- Hero Banner -->
       <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-xl mb-8">
         <div class="relative z-10 max-w-2xl">
           <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 mb-3">
@@ -113,13 +115,9 @@
             Select a verified provider, choose your convenient date, and reserve your real-time slot. Zero phone calls, guaranteed reservations, and automatic confirmations.
           </p>
         </div>
-        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
       </div>
 
-      <!-- Booking Two-Column Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        <!-- Left: Services Selection (7 cols) -->
         <div class="lg:col-span-7 space-y-6">
           <div class="flex items-center justify-between">
             <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -128,15 +126,10 @@
             </h2>
             <span class="text-xs text-slate-500">Pick any service below</span>
           </div>
-
-          <!-- Category filter bar -->
           <div id="category-filter-bar" class="flex flex-wrap gap-2"></div>
-
-          <!-- Services List -->
           <div id="services-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
 
-        <!-- Right: Interactive Calendar & Slot Availability (5 cols) -->
         <div class="lg:col-span-5 bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm sticky top-24">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
@@ -145,47 +138,26 @@
             </h2>
             <span class="text-xs text-slate-400 font-medium">Live sync</span>
           </div>
-
-          <!-- Selected service summary card -->
           <div id="selected-service-summary"></div>
-
-          <!-- Horizontal Quick Date Picker -->
           <div class="mb-5">
             <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Upcoming Available Dates</label>
             <div id="days-picker-container" class="flex gap-2.5 overflow-x-auto pb-2 no-scrollbar"></div>
           </div>
-
-          <!-- Date Selected Heading -->
           <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
             <span class="text-xs font-medium text-slate-400">Available Slots for:</span>
             <span id="selected-date-heading" class="text-xs font-bold text-indigo-600">Today</span>
           </div>
-
-          <!-- Real-Time Slot Grid -->
           <div id="slots-container" class="min-h-[220px]"></div>
-
           <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-            <div class="flex items-center gap-1.5">
-              <span class="w-2.5 h-2.5 rounded-md border border-slate-300 bg-white"></span>
-              <span>Available</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-2.5 h-2.5 rounded-md bg-rose-100 border border-rose-200"></span>
-              <span>Booked</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <span class="w-2.5 h-2.5 rounded-md bg-slate-100 border border-slate-200"></span>
-              <span>Passed</span>
-            </div>
+            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-md border border-slate-300 bg-white"></span><span>Available</span></div>
+            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-md bg-rose-100 border border-rose-200"></span><span>Booked</span></div>
+            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-md bg-slate-100 border border-slate-200"></span><span>Passed</span></div>
           </div>
         </div>
-
       </div>
     </section>
 
-    <!-- ==================================================================== -->
-    <!-- TAB 2: MY BOOKINGS -->
-    <!-- ==================================================================== -->
+    <!-- ==================== TAB 2: MY BOOKINGS ==================== -->
     <section id="tab-my-bookings" class="tab-content hidden space-y-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -193,32 +165,14 @@
           <p class="text-xs text-slate-500 mt-0.5">Track your upcoming appointments, reschedule slots, or download receipts.</p>
         </div>
         <div class="flex items-center gap-3">
-          <input
-            id="my-bookings-search"
-            type="text"
-            placeholder="Search by ID, Name or Service..."
-            class="px-4 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 w-60 shadow-sm"
-          />
-          <select
-            id="my-bookings-status-filter"
-            class="px-3 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm font-medium">
-            <option value="all">All Statuses</option>
-            <option value="confirmed">Confirmed</option>
-            <option value="completed">Completed</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
+          <input id="my-bookings-search" type="text" placeholder="Search by ID, Name or Service..." class="px-4 py-2 text-xs rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 w-60 shadow-sm" />
         </div>
       </div>
-
-      <!-- Bookings list -->
       <div id="my-bookings-list" class="space-y-4"></div>
     </section>
 
-    <!-- ==================================================================== -->
-    <!-- TAB 3: ADMIN & ANALYTICS DASHBOARD -->
-    <!-- ==================================================================== -->
+    <!-- ==================== TAB 3: ADMIN PANEL ==================== -->
     <section id="tab-admin" class="tab-content hidden space-y-8">
-      <!-- Admin Header -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
         <div>
           <span class="text-[10px] font-extrabold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">Staff & Admin Portal</span>
@@ -227,70 +181,43 @@
         </div>
         <div class="flex items-center gap-2">
           <button onclick="exportAppointmentsCSV()" class="px-4 py-2 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 text-xs font-bold rounded-xl shadow-sm transition-all flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            Export CSV
+            📥 Export CSV
           </button>
-          <button onclick="openAddServiceModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition-all flex items-center gap-1.5">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-            Add New Service
+          <button onclick="handleResetDemoData()" class="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold rounded-xl shadow-sm transition-all">
+            Reset Demo Data
           </button>
         </div>
       </div>
 
-      <!-- KPI Stat Cards -->
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
           <span class="text-xs text-slate-400 font-medium block">Total Bookings</span>
           <span id="admin-stat-total" class="text-2xl font-black text-slate-900 mt-1 block">0</span>
-          <span class="text-[10px] text-emerald-600 font-semibold mt-1 block">All-time appointments</span>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
           <span class="text-xs text-slate-400 font-medium block">Today's Agenda</span>
           <span id="admin-stat-today" class="text-2xl font-black text-indigo-600 mt-1 block">0</span>
-          <span class="text-[10px] text-indigo-500 font-semibold mt-1 block">Scheduled for today</span>
-        </div>
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-          <span class="text-xs text-slate-400 font-medium block">Active Confirmed</span>
-          <span id="admin-stat-confirmed" class="text-2xl font-black text-emerald-600 mt-1 block">0</span>
-          <span class="text-[10px] text-emerald-600 font-semibold mt-1 block">Ready for service</span>
         </div>
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
           <span class="text-xs text-slate-400 font-medium block">Total Revenue</span>
           <span id="admin-stat-revenue" class="text-2xl font-black text-slate-900 mt-1 block">₹0</span>
-          <span class="text-[10px] text-emerald-600 font-semibold mt-1 block">Gross billing value</span>
         </div>
-        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm col-span-2 md:col-span-1">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
           <span class="text-xs text-slate-400 font-medium block">Cancellation Rate</span>
           <span id="admin-stat-cancellation" class="text-2xl font-black text-rose-600 mt-1 block">0%</span>
-          <span class="text-[10px] text-slate-400 font-semibold mt-1 block">Drop-off indicator</span>
         </div>
       </div>
 
-      <!-- Appointments Table -->
-      <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
-        <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h3 class="font-bold text-slate-900 text-base">All Scheduled Appointments</h3>
-            <p class="text-xs text-slate-400">View and update appointment progress in real time</p>
-          </div>
-          <div class="flex items-center gap-3">
-            <select id="admin-table-status-filter" class="px-3 py-1.5 text-xs rounded-xl border border-slate-200 bg-white font-medium text-slate-700">
-              <option value="all">Filter: All Statuses</option>
-              <option value="confirmed">Confirmed</option>
-              <option value="completed">Completed</option>
-              <option value="cancelled">Cancelled</option>
-            </select>
-          </div>
-        </div>
-
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-slate-100"><h3 class="font-bold text-slate-900 text-base">All Scheduled Appointments</h3></div>
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200">
                 <th class="py-3 px-4">Booking ID</th>
                 <th class="py-3 px-4">Customer</th>
-                <th class="py-3 px-4">Service & Provider</th>
-                <th class="py-3 px-4">Date & Time</th>
+                <th class="py-3 px-4">Service</th>
+                <th class="py-3 px-4">Schedule</th>
                 <th class="py-3 px-4">Fee</th>
                 <th class="py-3 px-4">Status</th>
                 <th class="py-3 px-4 text-right">Actions</th>
@@ -300,68 +227,9 @@
           </table>
         </div>
       </div>
-
-      <!-- Schedule Settings & Service Catalog Management -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <!-- Working Hours & Buffer Configuration (6 cols) -->
-        <div class="lg:col-span-6 bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-bold text-slate-900 text-base">Working Hours & Buffer Settings</h3>
-            <span class="text-xs font-semibold text-indigo-600">Engine Config</span>
-          </div>
-          <form onsubmit="handleSaveSettings(event)" class="space-y-4 text-xs">
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block font-medium text-slate-600 mb-1">Work Start Time</label>
-                <input id="setting-start-time" type="time" class="w-full px-3 py-2 border border-slate-200 rounded-xl" required />
-              </div>
-              <div>
-                <label class="block font-medium text-slate-600 mb-1">Work End Time</label>
-                <input id="setting-end-time" type="time" class="w-full px-3 py-2 border border-slate-200 rounded-xl" required />
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label class="block font-medium text-slate-600 mb-1">Lunch Break Start</label>
-                <input id="setting-lunch-start" type="time" class="w-full px-3 py-2 border border-slate-200 rounded-xl" required />
-              </div>
-              <div>
-                <label class="block font-medium text-slate-600 mb-1">Lunch Break End</label>
-                <input id="setting-lunch-end" type="time" class="w-full px-3 py-2 border border-slate-200 rounded-xl" required />
-              </div>
-            </div>
-
-            <div>
-              <label class="block font-medium text-slate-600 mb-1">Default Slot Interval (Minutes)</label>
-              <select id="setting-interval" class="w-full px-3 py-2 border border-slate-200 rounded-xl">
-                <option value="15">15 Minutes</option>
-                <option value="30">30 Minutes (Standard)</option>
-                <option value="45">45 Minutes</option>
-                <option value="60">60 Minutes</option>
-              </select>
-            </div>
-
-            <button type="submit" class="w-full py-2.5 bg-slate-900 hover:bg-black text-white font-bold rounded-xl transition-all shadow-sm">
-              Save Schedule Rules
-            </button>
-          </form>
-        </div>
-
-        <!-- Manage Active Services (6 cols) -->
-        <div class="lg:col-span-6 bg-white rounded-3xl border border-slate-200/90 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="font-bold text-slate-900 text-base">Active Services</h3>
-            <button onclick="openAddServiceModal()" class="text-xs font-bold text-indigo-600 hover:text-indigo-800">+ Add New</button>
-          </div>
-          <div id="admin-services-list" class="space-y-3 max-h-[300px] overflow-y-auto pr-1"></div>
-        </div>
-      </div>
     </section>
 
-    <!-- ==================================================================== -->
-    <!-- TAB 4: SERVICES CATALOG -->
-    <!-- ==================================================================== -->
+    <!-- ==================== TAB 4: SERVICES ==================== -->
     <section id="tab-services" class="tab-content hidden space-y-6">
       <div>
         <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Services Directory</h2>
@@ -370,295 +238,445 @@
       <div id="services-catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
 
-    <!-- ==================================================================== -->
-    <!-- TAB 5: PROJECT DEFINITION REPORT (PDR) & VIVA HIGHLIGHTS -->
-    <!-- ==================================================================== -->
-    <section id="tab-docs" class="tab-content hidden space-y-8">
+    <!-- ==================== TAB 5: DOCS ==================== -->
+    <section id="tab-docs" class="tab-content hidden space-y-6">
       <div class="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
-        <div class="flex items-center justify-between pb-6 border-b border-slate-200">
-          <div>
-            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">College Project Documentation</span>
-            <h2 class="text-2xl font-extrabold text-slate-900 mt-2">Project Definition Report (PDR) & Viva Guide</h2>
-            <p class="text-xs text-slate-500 mt-1">Smart Scheduler Booking System • Real-Life Based Web Application</p>
+        <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">College Project Documentation</span>
+        <h2 class="text-2xl font-extrabold text-slate-900 mt-2">Project Definition Report (PDR) & Viva Guide</h2>
+        <div class="space-y-4 mt-6 text-xs md:text-sm text-slate-700">
+          <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+            <h4 class="font-bold text-slate-900">Project Overview</h4>
+            <p class="mt-1">Smart Scheduler Booking System is a responsive web application designed to automate scheduling, eliminate double-bookings through dynamic conflict verification, and provide self-service cancellation and rescheduling.</p>
           </div>
-          <button onclick="window.print()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold shadow-sm">
-            Print Documentation
-          </button>
-        </div>
-
-        <div class="prose max-w-none text-xs md:text-sm text-slate-700 space-y-6 mt-6">
-          <div>
-            <h3 class="text-base font-bold text-slate-900">1. Project Synopsis</h3>
-            <p class="mt-1">
-              Smart Scheduler Booking System is a full-featured web application designed to solve common scheduling bottlenecks in appointment-based businesses. It eliminates double-bookings through dynamic conflict verification, reduces client no-shows via automated notification invites, and empowers service providers with an intuitive administrative dashboard.
-            </p>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
-              <h4 class="font-bold text-slate-900 text-sm">Key Objectives</h4>
-              <ul class="list-disc list-inside mt-2 space-y-1 text-xs text-slate-600">
-                <li>Zero double-booking via transactional slot locking.</li>
-                <li>Dynamic availability calculation based on working hours, lunch breaks, and buffers.</li>
-                <li>Self-service booking, rescheduling, and cancellation with instant feedback.</li>
-                <li>Comprehensive administrator analytics on revenue, utilization, and cancellations.</li>
-              </ul>
-            </div>
-
-            <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
-              <h4 class="font-bold text-slate-900 text-sm">Technical Stack</h4>
-              <ul class="list-disc list-inside mt-2 space-y-1 text-xs text-slate-600">
-                <li><strong>Frontend:</strong> HTML5, Tailwind CSS, JavaScript (ES6+ Modules).</li>
-                <li><strong>State & Concurrency:</strong> Reactive LocalStorage State Engine with ACID validation checks.</li>
-                <li><strong>Audio & Media:</strong> Native Web Audio API Synthesizer (Zero asset latency).</li>
-                <li><strong>Backend Option:</strong> Node.js / Express REST API with SQLite/PostgreSQL schema.</li>
-              </ul>
-            </div>
-          </div>
-
-          <div>
-            <h3 class="text-base font-bold text-slate-900">2. College Viva Presentation Checklist</h3>
-            <div class="space-y-3 mt-3">
-              <div class="p-3.5 bg-indigo-50/60 border border-indigo-100 rounded-xl">
-                <strong class="text-indigo-950 font-bold block">Q1: How does the system prevent two users from booking the same slot simultaneously?</strong>
-                <p class="text-slate-600 text-xs mt-1">
-                  <strong>Answer:</strong> Before confirming a reservation, the system executes an atomic check (<code class="bg-white px-1 py-0.5 rounded border border-indigo-200">isSlotBooked()</code>) validating that the chosen date, time slot, and service do not have an active (<code class="bg-white px-1 py-0.5 rounded border border-indigo-200">Confirmed</code> or <code class="bg-white px-1 py-0.5 rounded border border-indigo-200">Rescheduled</code>) record. In the database architecture, this is backed by a composite unique constraint: <code class="bg-white px-1 py-0.5 rounded border border-indigo-200">UNIQUE (service_id, booking_date, start_time)</code>.
-                </p>
-              </div>
-
-              <div class="p-3.5 bg-indigo-50/60 border border-indigo-100 rounded-xl">
-                <strong class="text-indigo-950 font-bold block">Q2: How are time slots generated dynamically?</strong>
-                <p class="text-slate-600 text-xs mt-1">
-                  <strong>Answer:</strong> The Calendar Engine takes the provider's operating hours (e.g. 09:00 to 18:00), subtracts lunch breaks (13:00 to 14:00), and partitions the remaining time into discrete intervals equal to <code class="bg-white px-1 py-0.5 rounded border border-indigo-200">Service Duration + Buffer Time</code>. It then checks each interval against existing bookings and past elapsed times.
-                </p>
-              </div>
-
-              <div class="p-3.5 bg-indigo-50/60 border border-indigo-100 rounded-xl">
-                <strong class="text-indigo-950 font-bold block">Q3: How does cancellation and rescheduling handle slot availability?</strong>
-                <p class="text-slate-600 text-xs mt-1">
-                  <strong>Answer:</strong> When an appointment is cancelled, its status updates to 'Cancelled', immediately freeing up that time slot on the live calendar for other clients. Rescheduling checks the new chosen slot for availability, updates the appointment record, and marks it as rescheduled.
-                </p>
-              </div>
-            </div>
+          <div class="p-4 bg-indigo-50/60 rounded-2xl border border-indigo-100">
+            <h4 class="font-bold text-slate-900">Viva Core Q&A: Concurrency & Double-Booking</h4>
+            <p class="mt-1"><strong>Answer:</strong> Before writing any reservation, the system executes an atomic check: <code>isSlotBooked()</code>. If another client has confirmed the slot, the request is rejected with a conflict error. In relational databases, this is guaranteed via <code>UNIQUE (service_id, booking_date, start_time)</code>.</p>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-        <span class="font-bold text-slate-800">Smart Scheduler Booking System</span>
-        <span>• College Web Application Project</span>
-      </div>
-      <div>
-        <span>Built with HTML5, Tailwind CSS, JavaScript & REST Architecture</span>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ==================================================================== -->
-  <!-- MODAL 1: BOOKING FORM MODAL -->
-  <!-- ==================================================================== -->
+  <!-- Modals -->
+  <!-- Booking Modal -->
   <div id="booking-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative animate-in fade-in duration-200">
-      <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-all">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-
-      <div class="mb-5">
-        <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full">Step 3 of 3</span>
-        <h3 class="text-xl font-black text-slate-900 mt-1">Confirm Your Booking</h3>
-        <p class="text-xs text-slate-500 mt-0.5">Please review your slot details and provide contact information.</p>
-      </div>
-
-      <!-- Selected summary chip -->
-      <div class="p-3.5 bg-indigo-50/60 border border-indigo-100 rounded-2xl mb-5 text-xs">
-        <div class="flex items-center justify-between font-bold text-slate-900">
-          <span id="modal-service-name">General Physician</span>
-          <span id="modal-price" class="text-indigo-600 font-extrabold text-sm">₹500</span>
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative">
+      <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg">✕</button>
+      <h3 class="text-xl font-black text-slate-900 mb-2">Confirm Slot Booking</h3>
+      <div class="p-3.5 bg-indigo-50/60 border border-indigo-100 rounded-2xl mb-4 text-xs">
+        <div class="flex justify-between font-bold text-slate-900">
+          <span id="modal-service-name"></span>
+          <span id="modal-price" class="text-indigo-600 font-extrabold"></span>
         </div>
-        <p id="modal-provider-name" class="text-slate-500 mt-0.5">Dr. Rajesh Sharma</p>
-        <div class="flex items-center gap-3 mt-2 text-indigo-950 font-semibold pt-2 border-t border-indigo-100/60">
-          <span class="flex items-center gap-1">
-            <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            <span id="modal-date">Date</span>
-          </span>
-          <span>•</span>
-          <span class="flex items-center gap-1">
-            <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <span id="modal-time">Time</span> (<span id="modal-duration">30 mins</span>)
-          </span>
-        </div>
+        <p id="modal-provider-name" class="text-slate-500 mt-0.5"></p>
+        <p class="mt-1 font-semibold text-slate-700"><span id="modal-date"></span> at <span id="modal-time" class="text-indigo-600"></span></p>
       </div>
-
-      <!-- Booking Form -->
-      <form onsubmit="handleConfirmBooking(event)" class="space-y-3.5 text-xs">
+      <form onsubmit="handleConfirmBooking(event)" class="space-y-3 text-xs">
         <div>
           <label class="block font-bold text-slate-700 mb-1">Full Name *</label>
-          <input id="input-cust-name" type="text" placeholder="e.g. Rahul Sen" required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+          <input id="input-cust-name" type="text" required class="w-full px-3 py-2 border border-slate-200 rounded-xl" />
         </div>
-
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Email Address *</label>
-            <input id="input-cust-email" type="email" placeholder="rahul@example.com" required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+            <label class="block font-bold text-slate-700 mb-1">Email *</label>
+            <input id="input-cust-email" type="email" required class="w-full px-3 py-2 border border-slate-200 rounded-xl" />
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Phone Number *</label>
-            <input id="input-cust-phone" type="tel" placeholder="+91 98765 43210" required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none" />
+            <label class="block font-bold text-slate-700 mb-1">Phone *</label>
+            <input id="input-cust-phone" type="tel" required class="w-full px-3 py-2 border border-slate-200 rounded-xl" />
           </div>
         </div>
-
         <div>
-          <label class="block font-bold text-slate-700 mb-1">Additional Notes / Symptoms (Optional)</label>
-          <textarea id="input-cust-notes" rows="2" placeholder="Brief reason for visit or special request..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none"></textarea>
+          <label class="block font-bold text-slate-700 mb-1">Notes (Optional)</label>
+          <textarea id="input-cust-notes" rows="2" class="w-full px-3 py-2 border border-slate-200 rounded-xl"></textarea>
         </div>
-
-        <div class="pt-2">
-          <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl shadow-lg shadow-indigo-600/30 transition-all text-sm flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            Confirm & Guarantee Slot
-          </button>
-          <p class="text-[10px] text-center text-slate-400 mt-2">No advance deposit required. Pay at venue or online.</p>
-        </div>
+        <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl shadow-md transition-all text-xs">
+          Confirm & Guarantee Slot
+        </button>
       </form>
     </div>
   </div>
 
-  <!-- ==================================================================== -->
-  <!-- MODAL 2: CONFIRMATION RECEIPT MODAL -->
-  <!-- ==================================================================== -->
+  <!-- Receipt Modal -->
   <div id="receipt-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-100 relative animate-in zoom-in-95 duration-200">
-      <button onclick="closeReceiptModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-all no-print">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-
-      <div class="text-center mb-4">
-        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-2">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-        </div>
-        <h3 class="text-xl font-extrabold text-slate-900">Appointment Confirmed!</h3>
-        <p class="text-xs text-slate-500">Your time slot has been successfully locked and reserved.</p>
-      </div>
-
-      <div id="receipt-details"></div>
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative text-center">
+      <button onclick="closeReceiptModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 text-lg no-print">✕</button>
+      <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-2 text-xl font-bold">✓</div>
+      <h3 class="text-xl font-extrabold text-slate-900">Appointment Confirmed!</h3>
+      <p class="text-xs text-slate-500 mb-4">Your time slot has been successfully locked and reserved.</p>
+      <div id="receipt-details" class="text-left"></div>
     </div>
   </div>
 
-  <!-- ==================================================================== -->
-  <!-- MODAL 3: RESCHEDULE MODAL -->
-  <!-- ==================================================================== -->
-  <div id="reschedule-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 relative animate-in fade-in duration-200">
-      <button onclick="closeRescheduleModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-all">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
+  <!-- SELF-CONTAINED JAVASCRIPT ENGINE -->
+  <script>
+    // 1. DATA
+    const DEFAULT_CATEGORIES = [
+      { id: 'all', name: 'All Services' },
+      { id: 'healthcare', name: 'Healthcare & Doctors' },
+      { id: 'salon', name: 'Salon & Wellness' },
+      { id: 'education', name: 'Coaching & Mentoring' },
+      { id: 'consulting', name: 'Business & Legal' }
+    ];
 
-      <div class="mb-4">
-        <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Self-Service</span>
-        <h3 class="text-xl font-black text-slate-900 mt-1">Reschedule Appointment</h3>
-        <p class="text-xs text-slate-500">Pick a new date and open slot. Your existing slot will be released.</p>
-      </div>
+    const DEFAULT_SERVICES = [
+      {
+        id: 'srv-1', categoryId: 'healthcare', name: 'General Physician Consultation',
+        provider: 'Dr. Rajesh Sharma, MD', description: 'Comprehensive physical health checkup, diagnosis and prescription.',
+        duration: 30, bufferTime: 10, price: 500, rating: 4.9, reviewsCount: 128, badge: 'Popular',
+        avatar: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'srv-2', categoryId: 'healthcare', name: 'Dental Checkup & Cleaning',
+        provider: 'Dr. Ananya Verma, BDS', description: 'Oral examination, plaque removal and cavity assessment.',
+        duration: 45, bufferTime: 15, price: 800, rating: 4.8, reviewsCount: 94, badge: 'Specialist',
+        avatar: 'https://images.unsplash.com/photo-1594824813576-97b71329c298?w=150&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'srv-3', categoryId: 'salon', name: 'Executive Haircut & Styling',
+        provider: 'Alex Rivera (Master Barber)', description: 'Precision haircut, hair wash, scalp massage and styling.',
+        duration: 30, bufferTime: 10, price: 400, rating: 4.9, reviewsCount: 215, badge: 'Trending',
+        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 'srv-5', categoryId: 'education', name: '1-on-1 Coding & Career Mentorship',
+        provider: 'Vikram Mehta (Senior Engg)', description: 'Resume review, DSA/System design roadmap, mock tech interview.',
+        duration: 45, bufferTime: 15, price: 999, rating: 5.0, reviewsCount: 142, badge: 'Top Rated',
+        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80'
+      }
+    ];
 
-      <div id="reschedule-booking-info"></div>
+    function getOffsetDate(dOffset = 0) {
+      const d = new Date();
+      d.setDate(d.getDate() + dOffset);
+      return d.toISOString().split('T')[0];
+    }
 
-      <div class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-slate-600 mb-1.5">1. Select New Date</label>
-          <div id="reschedule-days-container" class="flex flex-wrap gap-2"></div>
+    const DEFAULT_BOOKINGS = [
+      {
+        id: 'SCH-7821', serviceId: 'srv-1', serviceName: 'General Physician Consultation',
+        provider: 'Dr. Rajesh Sharma, MD', customerName: 'Rahul Sen', customerEmail: 'rahul@example.com',
+        customerPhone: '+91 98765 43210', date: getOffsetDate(0), timeSlot: '10:00 AM',
+        duration: 30, amount: 500, status: 'Confirmed', notes: 'Routine health checkup.'
+      },
+      {
+        id: 'SCH-8942', serviceId: 'srv-3', serviceName: 'Executive Haircut & Styling',
+        provider: 'Alex Rivera (Master Barber)', customerName: 'Aman Gupta', customerEmail: 'aman@example.com',
+        customerPhone: '+91 98111 22334', date: getOffsetDate(0), timeSlot: '02:00 PM',
+        duration: 30, amount: 400, status: 'Confirmed', notes: 'Fade haircut.'
+      }
+    ];
+
+    // 2. STORAGE ENGINE
+    class StorageEngine {
+      constructor() {
+        this.services = JSON.parse(localStorage.getItem('ss_services')) || DEFAULT_SERVICES;
+        this.bookings = JSON.parse(localStorage.getItem('ss_bookings')) || DEFAULT_BOOKINGS;
+      }
+      save() {
+        localStorage.setItem('ss_services', JSON.stringify(this.services));
+        localStorage.setItem('ss_bookings', JSON.stringify(this.bookings));
+      }
+      isSlotBooked(srvId, dateStr, timeSlot, excludeId = null) {
+        return this.bookings.some(b => {
+          if (excludeId && b.id === excludeId) return false;
+          return b.serviceId === srvId && b.date === dateStr && b.timeSlot === timeSlot && (b.status === 'Confirmed' || b.status === 'Rescheduled');
+        });
+      }
+      createBooking(payload) {
+        if (this.isSlotBooked(payload.serviceId, payload.date, payload.timeSlot)) {
+          throw new Error('Double-booking conflict prevented! Slot is already reserved.');
+        }
+        const newBooking = {
+          id: 'SCH-' + Math.floor(1000 + Math.random() * 9000),
+          ...payload,
+          status: 'Confirmed',
+          createdAt: new Date().toISOString()
+        };
+        this.bookings.unshift(newBooking);
+        this.save();
+        return newBooking;
+      }
+      updateStatus(id, newStatus) {
+        const b = this.bookings.find(x => x.id === id);
+        if (b) { b.status = newStatus; this.save(); }
+      }
+      reset() {
+        this.services = [...DEFAULT_SERVICES];
+        this.bookings = [...DEFAULT_BOOKINGS];
+        this.save();
+      }
+    }
+    const store = new StorageEngine();
+
+    // 3. UI STATE
+    let currentTab = 'book';
+    let selectedCat = 'all';
+    let selectedSrv = store.services[0];
+    let selectedDate = getOffsetDate(0);
+    let selectedSlot = null;
+
+    function switchTab(t) {
+      currentTab = t;
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('bg-indigo-600', b.dataset.tab === t);
+        b.classList.toggle('text-white', b.dataset.tab === t);
+        b.classList.toggle('text-slate-600', b.dataset.tab !== t);
+      });
+      document.querySelectorAll('.tab-content').forEach(s => s.classList.toggle('hidden', s.id !== `tab-${t}`));
+      if (t === 'book') renderBookingTab();
+      if (t === 'my-bookings') renderMyBookings();
+      if (t === 'admin') renderAdmin();
+      if (t === 'services') renderServicesTab();
+    }
+
+    function renderBookingTab() {
+      // Categories
+      document.getElementById('category-filter-bar').innerHTML = DEFAULT_CATEGORIES.map(c => `
+        <button onclick="setCategory('${c.id}')" class="px-3.5 py-1.5 rounded-full text-xs font-medium transition-all ${selectedCat === c.id ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 border border-slate-200'}">
+          ${c.name}
+        </button>
+      `).join('');
+
+      // Services
+      const filtered = selectedCat === 'all' ? store.services : store.services.filter(s => s.categoryId === selectedCat);
+      document.getElementById('services-list-container').innerHTML = filtered.map(s => {
+        const isSel = selectedSrv && selectedSrv.id === s.id;
+        return `
+          <div onclick="pickService('${s.id}')" class="p-4 rounded-2xl border cursor-pointer transition-all ${isSel ? 'border-indigo-600 bg-indigo-50/40 shadow-sm ring-1 ring-indigo-500' : 'border-slate-200 bg-white hover:border-indigo-300'}">
+            <div class="flex items-center gap-3">
+              <img src="${s.avatar}" class="w-12 h-12 rounded-xl object-cover" />
+              <div>
+                <h4 class="font-bold text-xs text-slate-900">${s.name}</h4>
+                <p class="text-[11px] text-slate-500">${s.provider}</p>
+                <span class="text-xs font-black text-slate-900 mt-1 block">₹${s.price} (${s.duration}m)</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Dates
+      const days = [];
+      const now = new Date();
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(now);
+        d.setDate(now.getDate() + i);
+        const key = d.toISOString().split('T')[0];
+        days.push({ key, label: d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short' }) });
+      }
+      document.getElementById('days-picker-container').innerHTML = days.map(d => `
+        <button onclick="pickDate('${d.key}')" class="flex-shrink-0 px-3 py-2 rounded-xl text-xs font-medium border transition-all ${selectedDate === d.key ? 'bg-indigo-600 text-white border-indigo-600 shadow' : 'bg-white border-slate-200 text-slate-700'}">
+          ${d.label}
+        </button>
+      `).join('');
+
+      renderSlots();
+    }
+
+    function pickService(id) {
+      selectedSrv = store.services.find(s => s.id === id);
+      renderBookingTab();
+    }
+    function pickDate(k) {
+      selectedDate = k;
+      renderBookingTab();
+    }
+    function setCategory(id) {
+      selectedCat = id;
+      renderBookingTab();
+    }
+
+    function renderSlots() {
+      document.getElementById('selected-date-heading').textContent = selectedDate;
+      document.getElementById('selected-service-summary').innerHTML = `
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-xs flex justify-between items-center">
+          <div><strong class="text-slate-800">${selectedSrv.name}</strong><br><span class="text-slate-500 text-[11px]">${selectedSrv.provider}</span></div>
+          <span class="font-extrabold text-slate-900">₹${selectedSrv.price}</span>
         </div>
+      `;
 
-        <div>
-          <label class="block text-xs font-bold text-slate-600 mb-1.5">2. Select New Slot</label>
-          <div id="reschedule-slots-container" class="grid grid-cols-3 gap-2 max-h-48 overflow-y-auto p-1"></div>
-        </div>
-
-        <div class="pt-3 flex gap-2">
-          <button onclick="closeRescheduleModal()" class="flex-1 py-2.5 border border-slate-200 text-slate-700 font-semibold rounded-xl text-xs hover:bg-slate-50">
-            Cancel
-          </button>
-          <button onclick="confirmReschedule()" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs shadow-md transition-all">
-            Confirm New Slot
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================================================================== -->
-  <!-- MODAL 4: ADD SERVICE MODAL -->
-  <!-- ==================================================================== -->
-  <div id="service-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100 relative animate-in fade-in duration-200">
-      <button onclick="closeAddServiceModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-all">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-
-      <div class="mb-4">
-        <h3 class="text-lg font-black text-slate-900">Add New Service</h3>
-        <p class="text-xs text-slate-500">Configure service duration, price, and specialist.</p>
-      </div>
-
-      <form onsubmit="handleSaveService(event)" class="space-y-3 text-xs">
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Service Title *</label>
-          <input id="new-srv-name" type="text" placeholder="e.g. Pediatric Checkup" required class="w-full px-3 py-2 border border-slate-200 rounded-xl" />
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Specialist / Provider Name *</label>
-          <input id="new-srv-provider" type="text" placeholder="e.g. Dr. Priya Das, MD" required class="w-full px-3 py-2 border border-slate-200 rounded-xl" />
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Category</label>
-          <select id="new-srv-category" class="w-full px-3 py-2 border border-slate-200 rounded-xl">
-            <option value="healthcare">Healthcare & Doctors</option>
-            <option value="salon">Salon & Wellness</option>
-            <option value="education">Coaching & Mentoring</option>
-            <option value="consulting">Business & Legal</option>
-          </select>
-        </div>
-
+      const times = ['09:00 AM', '09:45 AM', '10:30 AM', '11:15 AM', '02:00 PM', '02:45 PM', '03:30 PM', '04:15 PM', '05:00 PM'];
+      document.getElementById('slots-container').innerHTML = `
         <div class="grid grid-cols-3 gap-2">
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Duration (m)</label>
-            <input id="new-srv-duration" type="number" value="30" min="5" step="5" class="w-full px-3 py-2 border border-slate-200 rounded-xl" />
+          ${times.map(t => {
+            const isBooked = store.isSlotBooked(selectedSrv.id, selectedDate, t);
+            if (!isBooked) {
+              return `
+                <button onclick="openBookingModal('${t}')" class="py-2.5 px-2 text-center border border-slate-200 bg-white rounded-xl text-xs font-bold hover:border-indigo-500 hover:bg-indigo-50 text-slate-700 transition-all shadow-sm">
+                  ${t}
+                </button>
+              `;
+            }
+            return `
+              <div class="py-2 px-1 text-center border border-rose-200 bg-rose-50 rounded-xl text-xs font-medium text-rose-400 cursor-not-allowed">
+                ${t}<br><span class="text-[9px] uppercase font-bold text-rose-500">Booked</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function openBookingModal(time) {
+      selectedSlot = time;
+      document.getElementById('modal-service-name').textContent = selectedSrv.name;
+      document.getElementById('modal-provider-name').textContent = selectedSrv.provider;
+      document.getElementById('modal-price').textContent = `₹${selectedSrv.price}`;
+      document.getElementById('modal-date').textContent = selectedDate;
+      document.getElementById('modal-time').textContent = selectedSlot;
+      document.getElementById('input-cust-name').value = 'Rahul Sen';
+      document.getElementById('input-cust-email').value = 'rahul@example.com';
+      document.getElementById('input-cust-phone').value = '+91 98765 43210';
+      document.getElementById('booking-modal').classList.remove('hidden');
+    }
+    function closeBookingModal() {
+      document.getElementById('booking-modal').classList.add('hidden');
+    }
+
+    function handleConfirmBooking(e) {
+      e.preventDefault();
+      const name = document.getElementById('input-cust-name').value.trim();
+      const email = document.getElementById('input-cust-email').value.trim();
+      const phone = document.getElementById('input-cust-phone').value.trim();
+      const notes = document.getElementById('input-cust-notes').value.trim();
+
+      try {
+        const b = store.createBooking({
+          serviceId: selectedSrv.id, serviceName: selectedSrv.name, provider: selectedSrv.provider,
+          customerName: name, customerEmail: email, customerPhone: phone,
+          date: selectedDate, timeSlot: selectedSlot, duration: selectedSrv.duration, amount: selectedSrv.price, notes
+        });
+        closeBookingModal();
+        renderSlots();
+
+        const gCal = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(b.serviceName)}&dates=${b.date.replace(/-/g, '')}T090000Z/${b.date.replace(/-/g, '')}T100000Z&details=${encodeURIComponent('ID: ' + b.id)}`;
+
+        document.getElementById('receipt-details').innerHTML = `
+          <div class="border-2 border-dashed border-slate-200 rounded-2xl p-4 bg-slate-50 text-xs space-y-1.5 mb-4">
+            <div class="flex justify-between items-center pb-2 border-b border-slate-200">
+              <strong class="font-mono text-indigo-600 font-bold">${b.id}</strong>
+              <span class="font-black text-slate-900 text-sm">₹${b.amount}</span>
+            </div>
+            <p><strong>Service:</strong> ${b.serviceName}</p>
+            <p><strong>Specialist:</strong> ${b.provider}</p>
+            <p><strong>Schedule:</strong> ${b.date} at ${b.timeSlot}</p>
+            <p><strong>Client:</strong> ${b.customerName} (${b.customerPhone})</p>
           </div>
-          <div>
-            <label class="block font-bold text-slate-700 mb-1">Buffer (m)</label>
-            <input id="new-srv-buffer" type="number" value="10" min="0" step="5" class="w-full px-3 py-2 border border-slate-200 rounded-xl" />
+          <div class="flex gap-2">
+            <a href="${gCal}" target="_blank" class="flex-1 py-2 text-center bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:border-indigo-400">Add to Calendar</a>
+            <button onclick="window.print()" class="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold">Print</button>
           </div>
+        `;
+        document.getElementById('receipt-modal').classList.remove('hidden');
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+    function closeReceiptModal() {
+      document.getElementById('receipt-modal').classList.add('hidden');
+    }
+
+    function renderMyBookings() {
+      const q = (document.getElementById('my-bookings-search')?.value || '').toLowerCase();
+      let list = store.bookings;
+      if (q) list = list.filter(b => b.id.toLowerCase().includes(q) || b.customerName.toLowerCase().includes(q) || b.serviceName.toLowerCase().includes(q));
+
+      document.getElementById('my-bookings-list').innerHTML = list.map(b => `
+        <div class="p-4 bg-white rounded-2xl border border-slate-200 flex justify-between items-center shadow-sm text-xs">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Fee (₹)</label>
-            <input id="new-srv-price" type="number" value="500" min="0" step="50" class="w-full px-3 py-2 border border-slate-200 rounded-xl" />
+            <div class="flex items-center gap-2">
+              <strong class="text-sm font-bold text-slate-800">${b.serviceName}</strong>
+              <span class="px-2 py-0.5 rounded-full font-bold text-[10px] ${b.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${b.status}</span>
+            </div>
+            <p class="text-slate-500 mt-0.5">${b.provider} • ID: <strong class="text-indigo-600 font-mono">${b.id}</strong></p>
+            <p class="text-slate-700 mt-1">📅 ${b.date} at ${b.timeSlot} • Client: ${b.customerName}</p>
+          </div>
+          <div class="text-right">
+            <span class="text-base font-extrabold text-slate-900">₹${b.amount}</span>
+            ${b.status === 'Confirmed' ? `
+              <div class="mt-2">
+                <button onclick="cancelBooking('${b.id}')" class="px-2.5 py-1 text-[11px] font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg">Cancel</button>
+              </div>
+            ` : ''}
           </div>
         </div>
+      `).join('');
+    }
 
-        <div>
-          <label class="block font-bold text-slate-700 mb-1">Description</label>
-          <textarea id="new-srv-desc" rows="2" placeholder="Brief outline of the appointment session..." class="w-full px-3 py-2 border border-slate-200 rounded-xl"></textarea>
+    function cancelBooking(id) {
+      if (confirm('Cancel this appointment? The slot will be freed immediately.')) {
+        store.updateStatus(id, 'Cancelled');
+        renderMyBookings();
+        renderSlots();
+      }
+    }
+
+    function renderAdmin() {
+      const today = getOffsetDate(0);
+      const total = store.bookings.length;
+      const todayCount = store.bookings.filter(b => b.date === today).length;
+      const rev = store.bookings.filter(b => b.status === 'Confirmed').reduce((a, b) => a + Number(b.amount), 0);
+      const canc = store.bookings.filter(b => b.status === 'Cancelled').length;
+
+      document.getElementById('admin-stat-total').textContent = total;
+      document.getElementById('admin-stat-today').textContent = todayCount;
+      document.getElementById('admin-stat-revenue').textContent = `₹${rev}`;
+      document.getElementById('admin-stat-cancellation').textContent = total > 0 ? `${((canc / total) * 100).toFixed(0)}%` : '0%';
+
+      document.getElementById('admin-appointments-tbody').innerHTML = store.bookings.map(b => `
+        <tr class="border-b border-slate-100 text-xs">
+          <td class="py-3 px-4 font-mono font-bold">${b.id}</td>
+          <td class="py-3 px-4"><strong>${b.customerName}</strong><br><span class="text-slate-400 text-[10px]">${b.customerPhone}</span></td>
+          <td class="py-3 px-4">${b.serviceName}</td>
+          <td class="py-3 px-4">${b.date}<br>${b.timeSlot}</td>
+          <td class="py-3 px-4 font-bold">₹${b.amount}</td>
+          <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${b.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">${b.status}</span></td>
+          <td class="py-3 px-4 text-right">
+            ${b.status === 'Confirmed' ? `<button onclick="cancelBooking('${b.id}'); renderAdmin();" class="text-rose-600 font-bold hover:underline">Cancel</button>` : '—'}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function renderServicesTab() {
+      document.getElementById('services-catalog-grid').innerHTML = store.services.map(s => `
+        <div class="bg-white rounded-3xl border border-slate-200 p-6 flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="flex items-center gap-3 mb-3">
+              <img src="${s.avatar}" class="w-14 h-14 rounded-2xl object-cover" />
+              <div>
+                <h4 class="font-extrabold text-slate-900">${s.name}</h4>
+                <p class="text-xs text-indigo-600 font-medium">${s.provider}</p>
+              </div>
+            </div>
+            <p class="text-xs text-slate-600 mb-4">${s.description}</p>
+          </div>
+          <div class="pt-3 border-t border-slate-100 flex justify-between items-center">
+            <span class="text-lg font-black text-slate-900">₹${s.price}</span>
+            <button onclick="pickService('${s.id}'); switchTab('book');" class="px-3.5 py-1.5 bg-indigo-600 text-white rounded-xl text-xs font-bold">Book Now</button>
+          </div>
         </div>
+      `).join('');
+    }
 
-        <div class="pt-2">
-          <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all">
-            Save & Publish Service
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+    function handleResetDemoData() {
+      if (confirm('Reset system to default seed data?')) {
+        store.reset();
+        switchTab(currentTab);
+      }
+    }
 
-  <!-- Scripts -->
-  <script src="js/data.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/calendar.js"></script>
-  <script src="js/app.js"></script>
+    function exportAppointmentsCSV() {
+      const rows = store.bookings.map(b => [b.id, b.customerName, b.customerPhone, b.serviceName, b.date, b.timeSlot, b.amount, b.status].join(','));
+      const csv = 'data:text/csv;charset=utf-8,ID,Customer,Phone,Service,Date,Slot,Fee,Status\n' + rows.join('\n');
+      const a = document.createElement('a'); a.href = encodeURI(csv); a.download = 'bookings.csv'; a.click();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      switchTab('book');
+      document.getElementById('my-bookings-search')?.addEventListener('input', renderMyBookings);
+    });
+  </script>
 </body>
 </html>
